@@ -1,12 +1,11 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 import { AppBar, Container, Link, Toolbar, Typography } from "@mui/material";
 import Main from "./components/Main/Main";
 
 function App() {
   return (
-    <React.Fragment>
+    <div className="App">
       <AppBar
         position="static"
         color="default"
@@ -37,7 +36,7 @@ function App() {
       >
         <Main />
       </Container>
-    </React.Fragment>
+    </div>
   );
 }
 
