@@ -1,46 +1,58 @@
 import React, { useState } from "react";
 import "./Main.scss";
-import { Button, Card, TextField, Typography } from "@mui/material";
+import ButtonList from "../ButtonList/ButtonList";
+import { Ingredient, IngredientType } from "./Ingredient";
 
 interface MainProps {}
 
 function Main(props: MainProps) {
-  const [alcoholList, setAlcoholList] = useState([
-    "Vodka",
-    "Rum",
-    "Gin",
-    "Tequila",
+  const [alcoholList, setAlcoholList] = useState<Ingredient[]>([
+    {
+      name: "Rum",
+    },
+    {
+      name: "Vodka",
+    },
+    {
+      name: "Gin",
+    },
+    {
+      name: "Elderflower liquor",
+    },
   ]);
-  const [alcoholInput, setAlcoholInput] = useState("");
-  const addElement: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === "Enter") {
-      if (!alcoholList.includes(alcoholInput))
-        setAlcoholList((prev) => [alcoholInput, ...prev]);
-      setAlcoholInput("");
-    }
-  };
+  const [selectedAlcoholList, setSelectedAlcoholList] = useState<string[]>([]);
+
+  const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([
+    {
+      name: "Lemon",
+    },
+    {
+      name: "Salt",
+    },
+    {
+      name: "Sugar",
+    },
+  ]);
+
+  const [selectedIngredientsList, setSelectedIngredientsList] = useState<
+    string[]
+  >([]);
 
   return (
-    <Card className="Main" variant="outlined" data-testtid="Main">
-      <Typography variant="h6">List of Alcohols</Typography>
-      <div className="alcohol-list">
-        {alcoholList.map((al, index) => (
-          <Button size="small" color="primary" variant="contained" key={index}>
-            {al}
-          </Button>
-        ))}
-        <TextField
-          className="list-input"
-          size="small"
-          id="outlined-basic"
-          label="Add Alcohol"
-          variant="outlined"
-          value={alcoholInput}
-          onChange={(e) => setAlcoholInput(e.target.value)}
-          onKeyDown={addElement}
-        />
-      </div>
-    </Card>
+    <div className="Main">
+      <ButtonList
+        listName="Alcohol"
+        onAppendList={setAlcoholList}
+        onSelectedList={setSelectedAlcoholList}
+        list={alcoholList}
+      />
+      <ButtonList
+        listName="Ingredients"
+        onAppendList={setIngredientsList}
+        onSelectedList={setSelectedIngredientsList}
+        list={ingredientsList}
+      />
+    </div>
   );
 }
 
