@@ -24,3 +24,5 @@ yarn-error.log*
 /.idea
 /.idea/vcs.xml
 /.idea/watcherTasks.xml
+
+/api/node_modules
