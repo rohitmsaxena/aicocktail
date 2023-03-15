@@ -1,0 +1,21 @@
+.Recipe {
+  background-color: #f0f3f3 !important;
+  padding: 12px;
+  margin-bottom: 24px;
+  .recipe-title {
+    margin-bottom: 15px;
+  }
+  .ingredient-title {
+    margin-bottom: 10px;
+  }
+  .ingredient {
+    margin-left: 24px;
+  }
+  .instruction-title {
+    margin-top: 15px;
+    margin-bottom: 8px;
+  }
+  .instruction {
+    margin-left: 24px;
+  }
+}

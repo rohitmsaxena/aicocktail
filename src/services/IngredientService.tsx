@@ -34,4 +34,8 @@ const updateIngredients = (ingredient: string) => {
   return axios.put<Ingredient[]>(`${url}/ingredients/list`, { ingredient });
 };
 
-export { getIngredients, updateIngredients };
+const sendCocktailIngredients = (ingredients: Ingredient[]) => {
+  return axios.put<string>(`${url}/generate`, { ingredients });
+};
+
+export { getIngredients, updateIngredients, sendCocktailIngredients };

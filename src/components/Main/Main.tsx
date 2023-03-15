@@ -5,7 +5,10 @@ import { Ingredient } from "./Ingredient";
 import {
   getIngredients,
   updateIngredients,
+  sendCocktailIngredients,
 } from "../../services/IngredientService";
+import { Button } from "@mui/material";
+import Recipe from "../Recipe/Recipe";
 
 interface MainProps {}
 
@@ -17,7 +20,9 @@ function Main(props: MainProps) {
     );
   });
 
+  // states
   const [alcoholList, setAlcoholList] = useState<Ingredient[]>([]);
+  const [recipe, setRecipe] = useState<string>("");
 
   const appendAlcoholList = (ingredient: string) => {
     updateIngredients(ingredient).then(() => {});
@@ -33,6 +38,19 @@ function Main(props: MainProps) {
   const selectAlcoholFromList = (element: Ingredient) => {
     element.isSelected = !element.isSelected;
     setAlcoholList((prev) => [...prev, element]);
+  };
+
+  const generateCocktail = (
+    element:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const selectedAlcohols = alcoholList.filter(
+      (alcohol) => alcohol.isSelected
+    );
+    sendCocktailIngredients(selectedAlcohols).then((response) => {
+      setRecipe(response.data);
+    });
   };
 
   // const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([
@@ -53,19 +71,30 @@ function Main(props: MainProps) {
 
   return (
     <div className="Main">
-      {JSON.stringify(alcoholList)}
+      {recipe != "" && <Recipe recipe={recipe} />}
       <ButtonList
         listName="Alcohol"
         appendList={appendAlcoholList}
         selectAlcoholFromList={selectAlcoholFromList}
         list={alcoholList}
       />
-      {/*<ButtonList*/}
-      {/*  listName="Ingredients"*/}
-      {/*  onAppendList={setIngredientsList}*/}
-      {/*  onSelectedList={setSelectedIngredientsList}*/}
-      {/*  list={ingredientsList}*/}
-      {/*/>*/}
+      <Button
+        className="submit-button"
+        variant="contained"
+        size="large"
+        color="secondary"
+        onClick={generateCocktail}
+      >
+        Generate Cocktail
+      </Button>
+      <Button
+        className="submit-button"
+        variant="contained"
+        size="large"
+        color="secondary"
+      >
+        Random Cocktail
+      </Button>
     </div>
   );
 }

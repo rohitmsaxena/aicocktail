@@ -33,6 +33,7 @@ function App() {
         maxWidth="sm"
         component="main"
         sx={{ pt: 8, pb: 6 }}
+        className="container-main"
       >
         <Main />
       </Container>

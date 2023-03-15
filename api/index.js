@@ -7,6 +7,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/ingredients", require("./ingredients"));
 app.use("/auth", require("./authentication"));
+app.use("/generate", require("./generate"));
 
 app.get("/", (request, response) => {
   response.send("Hello from Express!");
