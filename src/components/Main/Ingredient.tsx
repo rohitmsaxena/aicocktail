@@ -4,6 +4,7 @@ export enum IngredientType {
 }
 export interface Ingredient {
   name: string;
+  isSelected?: boolean;
   // type: IngredientType;
   // price?: number;
 }

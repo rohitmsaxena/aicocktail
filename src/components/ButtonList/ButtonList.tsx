@@ -5,36 +5,28 @@ import { Ingredient, IngredientType } from "../Main/Ingredient";
 
 interface ButtonListProps {
   listName: string;
-  onAppendList: (prev: (prev: Ingredient[]) => Ingredient[]) => void;
-  onSelectedList: (prev: (prev: string[]) => string[]) => void;
+  appendList: (newInput: string) => void;
+  selectAlcoholFromList: (element: Ingredient) => void;
+  // onSelectedList: (prev: (prev: string[]) => string[]) => void;
   list: Ingredient[];
 }
 
-function ButtonList({ listName, onAppendList, list }: ButtonListProps) {
+function ButtonList({
+  listName,
+  appendList,
+  selectAlcoholFromList,
+  list,
+}: ButtonListProps) {
   const [newInput, setNewInput] = useState("");
-
-  const generateNewIngredient = (): Ingredient => {
-    return {
-      name: newInput,
-    } as Ingredient;
-  };
 
   const addElement: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter") {
       if (!list.map((value) => value.name).includes(newInput)) {
-        onAppendList((prev) => [generateNewIngredient(), ...prev]);
+        appendList(newInput);
       }
       setNewInput("");
     }
   };
-
-  function addElementToSelectedList(
-    e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLButtonElement>
-  ) {
-    console.log(e);
-    console.log(e.currentTarget.id);
-    console.log(e.currentTarget.innerText);
-  }
 
   return (
     <Card className="ButtonList">
@@ -44,9 +36,9 @@ function ButtonList({ listName, onAppendList, list }: ButtonListProps) {
           <Button
             size="small"
             color="primary"
-            variant="contained"
+            variant={element.isSelected ? "contained" : "outlined"}
             key={index}
-            onClick={addElementToSelectedList}
+            onClick={(event) => selectAlcoholFromList(element)}
           >
             {element.name}
           </Button>

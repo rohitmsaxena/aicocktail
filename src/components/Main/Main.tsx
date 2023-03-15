@@ -1,57 +1,71 @@
 import React, { useState } from "react";
 import "./Main.scss";
 import ButtonList from "../ButtonList/ButtonList";
-import { Ingredient, IngredientType } from "./Ingredient";
+import { Ingredient } from "./Ingredient";
+import {
+  getIngredients,
+  updateIngredients,
+} from "../../services/IngredientService";
 
 interface MainProps {}
 
 function Main(props: MainProps) {
-  const [alcoholList, setAlcoholList] = useState<Ingredient[]>([
-    {
-      name: "Rum",
-    },
-    {
-      name: "Vodka",
-    },
-    {
-      name: "Gin",
-    },
-    {
-      name: "Elderflower liquor",
-    },
-  ]);
-  const [selectedAlcoholList, setSelectedAlcoholList] = useState<string[]>([]);
+  // get data
+  React.useEffect(() => {
+    getIngredients().then((ingredients: Ingredient[]) =>
+      setAlcoholList(ingredients)
+    );
+  });
 
-  const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([
-    {
-      name: "Lemon",
-    },
-    {
-      name: "Salt",
-    },
-    {
-      name: "Sugar",
-    },
-  ]);
+  const [alcoholList, setAlcoholList] = useState<Ingredient[]>([]);
 
-  const [selectedIngredientsList, setSelectedIngredientsList] = useState<
-    string[]
-  >([]);
+  const appendAlcoholList = (ingredient: string) => {
+    updateIngredients(ingredient).then(() => {});
+    setAlcoholList((prev) => [
+      {
+        name: ingredient,
+        isSelected: false,
+      } as Ingredient,
+      ...prev,
+    ]);
+  };
+
+  const selectAlcoholFromList = (element: Ingredient) => {
+    element.isSelected = !element.isSelected;
+    setAlcoholList((prev) => [...prev, element]);
+  };
+
+  // const [ingredientsList, setIngredientsList] = useState<Ingredient[]>([
+  //   {
+  //     name: "Lemon",
+  //   },
+  //   {
+  //     name: "Salt",
+  //   },
+  //   {
+  //     name: "Sugar",
+  //   },
+  // ]);
+  //
+  // const [selectedIngredientsList, setSelectedIngredientsList] = useState<
+  //   string[]
+  // >([]);
 
   return (
     <div className="Main">
+      {JSON.stringify(alcoholList)}
       <ButtonList
         listName="Alcohol"
-        onAppendList={setAlcoholList}
-        onSelectedList={setSelectedAlcoholList}
+        appendList={appendAlcoholList}
+        selectAlcoholFromList={selectAlcoholFromList}
         list={alcoholList}
       />
-      <ButtonList
-        listName="Ingredients"
-        onAppendList={setIngredientsList}
-        onSelectedList={setSelectedIngredientsList}
-        list={ingredientsList}
-      />
+      {/*<ButtonList*/}
+      {/*  listName="Ingredients"*/}
+      {/*  onAppendList={setIngredientsList}*/}
+      {/*  onSelectedList={setSelectedIngredientsList}*/}
+      {/*  list={ingredientsList}*/}
+      {/*/>*/}
     </div>
   );
 }

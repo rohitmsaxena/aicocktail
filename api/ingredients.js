@@ -13,12 +13,25 @@ router.get("/list", (req, res) => {
   res.send(db());
 });
 
+function generateIngredient(ingredient) {
+  return {
+    name: ingredient,
+  };
+}
+
 router.put("/list", (req, res) => {
   const ingredients = db();
+  console.log(req.body);
   if (
-    !ingredients.map((ingredient) => ingredient.name).includes(req.body.name)
+    !ingredients
+      .map((ingredient) => ingredient.name)
+      .includes(req.body.ingredient)
   ) {
-    const update = JSON.stringify([req.body, ...ingredients]);
+    const update = JSON.stringify([
+      generateIngredient(req.body.ingredient),
+      ...ingredients,
+    ]);
+
     fs.writeFile("./resources/db.json", update, "utf-8", (error) => {
       if (error) res.sendStatus(401);
     });
